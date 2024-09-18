@@ -8,7 +8,7 @@ Option Explicit
 'https://www.thesslstore.com/blog/difference-sha-1-sha-2-sha-256-hash-algorithms/
 'uses the
 '* CRC-32/ISO-HDLC
-'also MEF does work the same but with different lu-table
+'also MEF seems to work the same with different lu-table
 
 
 'CRC-32/AIXM:     &H12D09791
@@ -19,11 +19,11 @@ Option Explicit
 'CRC-32/CKSUM:    &HAB85B2A7
 'CRC-32/ISCSI:    &HDFB43161
 'CRC-32/ISOHDLC:  &HF89F9449
+'CRC-32/JAMCRC:   &HF89F9449
 'CRC-32/MEF:      &HA26BF73F
 'CRC-32/MPEG2:    &HAB85B2A7
 'CRC-32/XFER:     &H5004
 
-'CRC-32/JAMCRC
 Public Enum ECRC32LUTable
     CRC32_AIXM
     CRC32_AUTOSAR
@@ -91,7 +91,7 @@ End Function
 
 Private Sub Init()
     InitAsm
-    InitLUTable ECRC32LUTable.CRC32_JAMCRC
+    'InitLUTable ECRC32LUTable.CRC32_JAMCRC
 End Sub
 
 Public Sub InitAsm()

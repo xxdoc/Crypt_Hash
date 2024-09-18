@@ -7,8 +7,8 @@
 ![GitHub followers](https://img.shields.io/github/followers/OlimilO1402?style=social)
 
 
-In the field of cryptorgraphy different very interesting and sophisticated algorithms for different purposes specific to IT-security were invented and evolved in the past 50 years.   
-Here e.g. the evolution of checksum-algorithms, for checking if transfered or transmitted data is still correct or meanwhile corrupted.   
+In the field of cryptorgraphy many very interesting and sophisticated algorithms for different purposes specific to IT-security were invented and evolved in the past 50 years.   
+Here e.g. the evolution of checksum-algorithms, for checking if transferred or transmitted data is still correct or meanwhile corrupted.   
 This repo started in sept 2024. However collecting the codes at ActiveVB already began in the early 2K-years.   
 
 Some Links:  

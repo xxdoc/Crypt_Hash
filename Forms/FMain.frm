@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin VB.Form FMain 
    Caption         =   "CryptHash"
-   ClientHeight    =   6180
+   ClientHeight    =   5535
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   10335
+   ClientWidth     =   10455
    BeginProperty Font 
       Name            =   "Segoe UI"
       Size            =   9.75
@@ -16,71 +16,10 @@ Begin VB.Form FMain
    EndProperty
    Icon            =   "FMain.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   6180
-   ScaleWidth      =   10335
+   ScaleHeight     =   5535
+   ScaleWidth      =   10455
    StartUpPosition =   3  'Windows-Standard
-   Begin VB.CommandButton BtnSHA256 
-      Caption         =   "SHA256"
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   9
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   120
-      TabIndex        =   6
-      Top             =   3120
-      Width           =   1455
-   End
-   Begin VB.CommandButton BtnCRC32 
-      Caption         =   "CRC-32"
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   9
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   120
-      TabIndex        =   3
-      Top             =   480
-      Width           =   1455
-   End
-   Begin VB.TextBox TxtMD5 
-      Height          =   975
-      Left            =   120
-      TabIndex        =   1
-      Text            =   "The Quick Brown Fox Jumps Over The Lazy Dog"
-      Top             =   1200
-      Width           =   10095
-   End
-   Begin VB.CommandButton BtnMD5 
-      Caption         =   "MD5"
-      BeginProperty Font 
-         Name            =   "Segoe UI"
-         Size            =   9
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   120
-      TabIndex        =   0
-      Top             =   2280
-      Width           =   1455
-   End
-   Begin VB.Label LblSHA256 
-      AutoSize        =   -1  'True
-      Caption         =   "SHA256:"
+   Begin VB.TextBox TxtBCryptSHA512 
       BeginProperty Font 
          Name            =   "Consolas"
          Size            =   9.75
@@ -90,14 +29,176 @@ Begin VB.Form FMain
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   225
-      Left            =   1800
-      TabIndex        =   7
-      Top             =   3240
-      Width           =   735
+      Height          =   450
+      Left            =   3720
+      MultiLine       =   -1  'True
+      TabIndex        =   25
+      Text            =   "FMain.frx":1782
+      Top             =   5040
+      Width           =   6615
    End
-   Begin VB.Label LBLDragDropFileCRC32 
-      Caption         =   "Drag'n'drop file here, checksum will be calculated! The Quick Brown Fox Jumps Over The Lazy Dog"
+   Begin VB.TextBox TxtBCryptSHA384 
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   450
+      Left            =   3720
+      MultiLine       =   -1  'True
+      TabIndex        =   22
+      Text            =   "FMain.frx":1786
+      Top             =   4560
+      Width           =   6615
+   End
+   Begin VB.TextBox TxtBCryptSHA256 
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   450
+      Left            =   3720
+      MultiLine       =   -1  'True
+      TabIndex        =   19
+      Text            =   "FMain.frx":178A
+      Top             =   4080
+      Width           =   6615
+   End
+   Begin VB.TextBox TxtMSCryptSHA 
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   450
+      Left            =   3720
+      MultiLine       =   -1  'True
+      TabIndex        =   16
+      Text            =   "FMain.frx":178E
+      Top             =   3600
+      Width           =   6615
+   End
+   Begin VB.TextBox TxtMSCryptMD5 
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   450
+      Left            =   3720
+      MultiLine       =   -1  'True
+      TabIndex        =   13
+      Text            =   "FMain.frx":1792
+      Top             =   3120
+      Width           =   6615
+   End
+   Begin VB.TextBox TxtMSCryptRC4 
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   450
+      Left            =   3720
+      MultiLine       =   -1  'True
+      TabIndex        =   10
+      Text            =   "FMain.frx":1796
+      Top             =   2640
+      Width           =   6615
+   End
+   Begin VB.TextBox TxtCRC32MEF 
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   450
+      Left            =   3720
+      MultiLine       =   -1  'True
+      TabIndex        =   7
+      Text            =   "FMain.frx":179A
+      Top             =   2160
+      Width           =   6615
+   End
+   Begin VB.TextBox TxtCRC32JAM 
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   450
+      Left            =   3720
+      MultiLine       =   -1  'True
+      TabIndex        =   4
+      Text            =   "FMain.frx":179E
+      Top             =   1680
+      Width           =   6615
+   End
+   Begin VB.CommandButton BtnBCryptSHA512 
+      Caption         =   "BCrypt.SHA512"
+      BeginProperty Font 
+         Name            =   "Segoe UI"
+         Size            =   9
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
+      TabIndex        =   23
+      Top             =   5040
+      Width           =   1935
+   End
+   Begin VB.CommandButton BtnBCryptSHA384 
+      Caption         =   "BCrypt.SHA384"
+      BeginProperty Font 
+         Name            =   "Segoe UI"
+         Size            =   9
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
+      TabIndex        =   20
+      Top             =   4560
+      Width           =   1935
+   End
+   Begin VB.CommandButton BtnCRC32MEF 
+      Caption         =   "CRC-32/MEF"
       BeginProperty Font 
          Name            =   "Segoe UI"
          Size            =   9
@@ -110,44 +211,263 @@ Begin VB.Form FMain
       Height          =   375
       Left            =   120
       TabIndex        =   5
-      Top             =   120
-      Width           =   10095
+      Top             =   2160
+      Width           =   1935
    End
-   Begin VB.Label LblCRC32 
-      AutoSize        =   -1  'True
-      Caption         =   "CRC32:"
+   Begin VB.CommandButton BtnMSCryptSHA 
+      Caption         =   "MSCrypt.SHA"
       BeginProperty Font 
-         Name            =   "Consolas"
-         Size            =   9.75
+         Name            =   "Segoe UI"
+         Size            =   9
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   225
-      Left            =   1800
-      TabIndex        =   4
-      Top             =   600
-      Width           =   630
+      Height          =   375
+      Left            =   120
+      TabIndex        =   14
+      Top             =   3600
+      Width           =   1935
    End
-   Begin VB.Label LBLMD5 
-      AutoSize        =   -1  'True
-      Caption         =   "MD5:"
+   Begin VB.CommandButton BtnMSCryptRC4 
+      Caption         =   "MSCrypt.RC4"
       BeginProperty Font 
-         Name            =   "Consolas"
-         Size            =   9.75
+         Name            =   "Segoe UI"
+         Size            =   9
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   225
-      Left            =   1800
+      Height          =   375
+      Left            =   120
+      TabIndex        =   8
+      Top             =   2640
+      Width           =   1935
+   End
+   Begin VB.CommandButton BtnBCryptSHA256 
+      Caption         =   "BCrypt.SHA256"
+      BeginProperty Font 
+         Name            =   "Segoe UI"
+         Size            =   9
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
+      TabIndex        =   17
+      Top             =   4080
+      Width           =   1935
+   End
+   Begin VB.CommandButton BtnCRC32JAM 
+      Caption         =   "CRC-32/JAM"
+      BeginProperty Font 
+         Name            =   "Segoe UI"
+         Size            =   9
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
       TabIndex        =   2
-      Top             =   2400
-      Width           =   420
+      Top             =   1680
+      Width           =   1935
+   End
+   Begin VB.TextBox TxtUserTextToCrypt 
+      Height          =   975
+      Left            =   120
+      TabIndex        =   1
+      Text            =   "The Quick Brown Fox Jumps Over The Lazy Dog"
+      Top             =   600
+      Width           =   10215
+   End
+   Begin VB.CommandButton BtnMSCryptMD5 
+      Caption         =   "MSCrypt.MD5"
+      BeginProperty Font 
+         Name            =   "Segoe UI"
+         Size            =   9
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
+      TabIndex        =   11
+      Top             =   3120
+      Width           =   1935
+   End
+   Begin VB.Label LblBCrypt3 
+      AutoSize        =   -1  'True
+      Caption         =   "BCrypt.SHA512:"
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   2160
+      TabIndex        =   24
+      Top             =   5040
+      Width           =   1470
+   End
+   Begin VB.Label LblBCrypt2 
+      AutoSize        =   -1  'True
+      Caption         =   "BCrypt.SHA384:"
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   2160
+      TabIndex        =   21
+      Top             =   4560
+      Width           =   1470
+   End
+   Begin VB.Label LblCRC322 
+      AutoSize        =   -1  'True
+      Caption         =   "CRC-32/MEF:"
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   2160
+      TabIndex        =   6
+      Top             =   2160
+      Width           =   1155
+   End
+   Begin VB.Label LblMSCrypt3 
+      AutoSize        =   -1  'True
+      Caption         =   "MSCrypt.SHA:"
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   2160
+      TabIndex        =   15
+      Top             =   3600
+      Width           =   1260
+   End
+   Begin VB.Label LblMSCrypt1 
+      AutoSize        =   -1  'True
+      Caption         =   "MSCrypt.RC4:"
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   2160
+      TabIndex        =   9
+      Top             =   2640
+      Width           =   1260
+   End
+   Begin VB.Label LblBCrypt1 
+      AutoSize        =   -1  'True
+      Caption         =   "BCrypt.SHA256:"
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   2160
+      TabIndex        =   18
+      Top             =   4080
+      Width           =   1470
+   End
+   Begin VB.Label LBLDragDropFileCRC32 
+      Alignment       =   2  'Zentriert
+      Caption         =   "Drag'n'drop file here, checksum will be calculated!"
+      BeginProperty Font 
+         Name            =   "Segoe UI"
+         Size            =   9
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
+      TabIndex        =   0
+      Top             =   120
+      Width           =   10215
+   End
+   Begin VB.Label LblCRC321 
+      AutoSize        =   -1  'True
+      Caption         =   "CRC-32/JAM:"
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   2160
+      TabIndex        =   3
+      Top             =   1680
+      Width           =   1155
+   End
+   Begin VB.Label LblMSCrypt2 
+      AutoSize        =   -1  'True
+      Caption         =   "MSCrypt.MD5:"
+      BeginProperty Font 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   2160
+      TabIndex        =   12
+      Top             =   3120
+      Width           =   1260
    End
 End
 Attribute VB_Name = "FMain"
@@ -158,27 +478,26 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-    TxtMD5.Text = "The Quick Brown Fox Jumps Over The Lazy Dog"
+    TxtUserTextToCrypt.Text = "The Quick Brown Fox Jumps Over The Lazy Dog"
     'Label1.Caption = "&&H07606BB6"
     Me.Caption = Me.Caption & " v" & App.Major & "." & App.Minor & "." & App.Revision
 End Sub
 
-Private Sub BtnCRC32_Click()
-    Dim s As String: s = TxtMD5.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
-    Dim crc32_check As Long
-    If MCRC32.String_TryCheckCRC32(s, crc32_check) Then
-        LblCRC32.Caption = "CRC32: &&H" & Hex(crc32_check)
-        Debug.Print MCRC32.CRC32LUTableTypToStr & ": &&H" & Hex(crc32_check)
-    End If
+Private Sub LBLDragDropFileCRC32_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+    OnOLEDragDrop Data, Effect, Button, Shift, x, Y
+End Sub
+Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
+    OnOLEDragDrop Data, Effect, Button, Shift, x, Y
 End Sub
 
-Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub OnOLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
     If Not Data.GetFormat(ClipBoardConstants.vbCFFiles) Then Exit Sub
     Dim PFN As String: PFN = Data.Files(1)
     Dim s As String: s = GetFileContent(PFN)
     Dim crc32_chksum As Long
+    MCRC32.InitLUTable ECRC32LUTable.CRC32_JAMCRC
     If MCRC32.String_TryCheckCRC32(s, crc32_chksum) Then
-        LblCRC32.Caption = "CRC32-CheckSum: &H" & Hex(crc32_chksum)
+        TxtCRC32JAM.Text = "&H" & Hex(crc32_chksum)
     End If
 End Sub
 
@@ -195,17 +514,94 @@ Finally:
     Close FNr
 End Function
 
-Private Sub BtnMD5_Click()
-    Dim s As String: s = TxtMD5.Text
-    Dim c As New MSCrypt
-    s = c.GetPasswordHash(s)
-    Dim b() As Byte: b = s
-    LBLMD5.Caption = s
+'The Interface should be:
+'Public Function CheckSum(Bytes() as Byte) As Byte()
+
+Private Sub BtnCRC32JAM_Click()
+    Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
+    Dim crc32_check As Long
+    MCRC32.InitLUTable ECRC32LUTable.CRC32_JAMCRC
+    If MCRC32.String_TryCheckCRC32(s, crc32_check) Then
+        TxtCRC32JAM.Text = "&H" & Hex(crc32_check)
+        'Debug.Print MCRC32.CRC32LUTableTypToStr & ": &&H" & Hex(crc32_check)
+    End If
 End Sub
 
-Private Sub BtnSHA256_Click()
-    Dim b() As Byte: b = TxtMD5.Text
+Private Sub BtnCRC32MEF_Click()
+    Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
+    Dim crc32_check As Long
+    MCRC32.InitLUTable ECRC32LUTable.CRC32_MEF
+    If MCRC32.String_TryCheckCRC32(s, crc32_check) Then
+        TxtCRC32MEF.Text = "&H" & Hex(crc32_check)
+        'Debug.Print MCRC32.CRC32LUTableTypToStr & ": &&H" & Hex(crc32_check)
+    End If
+End Sub
+
+Private Sub BtnMSCryptRC4_Click()
+    Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
+    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_RC4)
+    s = c.TryGetHash(s)
+    Dim b() As Byte: b = StrConv(s, vbFromUnicode)
+    s = "&H"
+    Dim i As Long
+    For i = LBound(b) To UBound(b)
+        s = s & Hex2(b(i))
+    Next
+    TxtMSCryptRC4.Text = s
+End Sub
+
+'The Quick Brown Fox Jumps Over The Lazy Dog
+'58826469c2606f4791b9f75880dfbe2a
+Private Sub BtnMSCryptMD5_Click()
+    Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
+    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_MD5)
+    s = c.TryGetHash(s)
+    Dim b() As Byte: b = StrConv(s, vbFromUnicode)
+    s = "&H"
+    Dim i As Long
+    For i = LBound(b) To UBound(b)
+        s = s & Hex2(b(i))
+    Next
+    TxtMSCryptMD5.Text = s
+End Sub
+
+'SHA = Secure Hash Algorithm
+
+'The Quick Brown Fox Jumps Over The Lazy Dog
+'645218467886dd414ea66a09b6cceea806127fb5
+Private Sub BtnMSCryptSHA_Click()
+    Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
+    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_SHA)
+    s = c.TryGetHash(s)
+    Dim b() As Byte: b = StrConv(s, vbFromUnicode)
+    s = "&H"
+    Dim i As Long
+    For i = LBound(b) To UBound(b)
+        s = s & Hex2(b(i))
+    Next
+    TxtMSCryptSHA.Text = s
+End Sub
+
+'The Quick Brown Fox Jumps Over The Lazy Dog
+'c6e68384699d2e81c02d4c3eec53cede3ea420c1ae8a227dac495aa00666fd13
+Private Sub BtnBCryptSHA256_Click()
+    Dim b() As Byte: b = TxtUserTextToCrypt.Text
     b = MBCrypt.TryGetHash(b)
-    LblSHA256.Caption = b
+    TxtBCryptSHA256.Text = b
 End Sub
 
+'The Quick Brown Fox Jumps Over The Lazy Dog
+'29713f65a24e97e66da57499723359374326dd1498c9a26fda84396a7a7d0a24c56a50343f5e0228778ea7bd53f9a179
+Private Sub BtnBCryptSHA384_Click()
+    '
+End Sub
+
+'The Quick Brown Fox Jumps Over The Lazy Dog
+'12a98085e307959d5d6e6d0ed361845b604a33f9b66d025f30cc0414d2fa374ea129e6e80a838dffc07e2334e9936119d5bb18443d3ecde58a2f1ec4306e6fb2
+Private Sub BtnBCryptSHA512_Click()
+    '
+End Sub
+
+Private Sub Text1_Change()
+
+End Sub
