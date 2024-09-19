@@ -12,9 +12,8 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
-'Dieser Source stammt von http://www.activevb.de
-'und kann frei verwendet werden. Für eventuelle Schäden
-'wird nicht gehaftet.
+'Dieser Source in seiner ursprünglichen Form stammt von http://www.activevb.de
+'und kann frei verwendet werden. Für eventuelle Schäden wird nicht gehaftet.
 '
 'Um Fehler oder Fragen zu klären, nutzen Sie bitte unser Forum.
 'Ansonsten viel Spaß und Erfolg mit diesem Source !
@@ -28,19 +27,31 @@ Option Explicit
 '1. I do not like the "cls"-prefix and
 '2. imho the addition "Password" misses its general purpose
 
-
-Private Declare Function CryptAcquireContextA Lib "advapi32" (ByRef hProv_out As Long, ByVal pszContainer As String, ByVal pszProvider As String, ByVal dwProvType As Long, ByVal dwFlags As Long) As Long
-Private Declare Function CryptReleaseContext Lib "advapi32" (ByVal hProv As Long, ByVal dwFlags As Long) As Long
-
-Private Declare Function CryptCreateHash Lib "advapi32" (ByVal hProv As Long, ByVal Algid As Long, ByVal hSessionKey As Long, ByVal dwFlags As Long, ByRef phHash As Long) As Long
-Private Declare Function CryptDestroyHash Lib "advapi32" (ByVal hHash As Long) As Long
-
-Private Declare Function CryptHashData Lib "advapi32" (ByVal hHash As Long, ByVal pbData As String, ByVal dwDataLen As Long, ByVal dwFlags As Long) As Long
-Private Declare Function CryptGetHashParam Lib "advapi32" (ByVal hHash As Long, ByVal dwParam As Long, ByVal pbData As String, ByRef pdwDataLen As Long, ByVal dwFlags As Long) As Long
-
-Private Declare Function CryptDeriveKey Lib "advapi32" (ByVal hProv As Long, ByVal Algid As Long, ByVal hBaseData As Long, ByVal dwFlags As Long, ByRef hSessionKey As Long) As Long
-Private Declare Function CryptDestroyKey Lib "advapi32" (ByVal hSessionKey As Long) As Long
-
+#If VBA7 Then
+    Private Declare PtrSafe Function CryptAcquireContextW Lib "advapi32" (ByRef hProv_out As LongPtr, ByVal pszContainer As LongPtr, ByVal pszProvider As LongPtr, ByVal dwProvType As Long, ByVal dwFlags As Long) As Long
+    Private Declare PtrSafe Function CryptReleaseContext Lib "advapi32" (ByVal hProv As LongPtr, ByVal dwFlags As Long) As Long
+    
+    Private Declare PtrSafe Function CryptCreateHash Lib "advapi32" (ByVal hProv As LongPtr, ByVal Algid As Long, ByVal hSessionKey As LongPtr, ByVal dwFlags As Long, ByVal phHash As LongPtr) As Long
+    Private Declare PtrSafe Function CryptDestroyHash Lib "advapi32" (ByVal hHash As LongPtr) As Long
+    
+    Private Declare PtrSafe Function CryptHashData Lib "advapi32" (ByVal hHash As LongPtr, ByVal pbData As LongPtr, ByVal dwDataLen As Long, ByVal dwFlags As Long) As Long
+    Private Declare PtrSafe Function CryptGetHashParam Lib "advapi32" (ByVal hHash As LongPtr, ByVal dwParam As Long, ByVal pbData As LongPtr, ByVal pdwDataLen As LongPtr, ByVal dwFlags As Long) As Long
+    
+    Private Declare PtrSafe Function CryptDeriveKey Lib "advapi32" (ByVal hProv As LongPtr, ByVal Algid As Long, ByVal hBaseData As LongPtr, ByVal dwFlags As Long, ByVal hSessionKey As LongPtr) As Long
+    Private Declare PtrSafe Function CryptDestroyKey Lib "advapi32" (ByVal hSessionKey As LongPtr) As Long
+#Else
+    Private Declare Function CryptAcquireContextW Lib "advapi32" (ByRef hProv_out As LongPtr, ByVal pszContainer As LongPtr, ByVal pszProvider As LongPtr, ByVal dwProvType As Long, ByVal dwFlags As Long) As Long
+    Private Declare Function CryptReleaseContext Lib "advapi32" (ByVal hProv As LongPtr, ByVal dwFlags As Long) As Long
+    
+    Private Declare Function CryptCreateHash Lib "advapi32" (ByVal hProv As LongPtr, ByVal Algid As Long, ByVal hSessionKey As LongPtr, ByVal dwFlags As Long, ByVal phHash As LongPtr) As Long
+    Private Declare Function CryptDestroyHash Lib "advapi32" (ByVal hHash As LongPtr) As Long
+    
+    Private Declare Function CryptHashData Lib "advapi32" (ByVal hHash As LongPtr, ByVal pbData As LongPtr, ByVal dwDataLen As Long, ByVal dwFlags As Long) As Long
+    Private Declare Function CryptGetHashParam Lib "advapi32" (ByVal hHash As LongPtr, ByVal dwParam As Long, ByVal pbData As LongPtr, ByVal pdwDataLen As LongPtr, ByVal dwFlags As Long) As Long
+    
+    Private Declare Function CryptDeriveKey Lib "advapi32" (ByVal hProv As LongPtr, ByVal Algid As Long, ByVal hBaseData As LongPtr, ByVal dwFlags As Long, ByVal hSessionKey As LongPtr) As Long
+    Private Declare Function CryptDestroyKey Lib "advapi32" (ByVal hSessionKey As LongPtr) As Long
+#End If
 
 
 Private Const SERVICE_PROVIDER As String = "Microsoft Base Cryptographic Provider v1.0" & vbNullChar
@@ -88,9 +99,10 @@ Public Enum EHashAlgo
 End Enum
 
 Private m_HashAlgo           As EHashAlgo
-Private m_hCryptoProv        As Long
-Private m_hSessionKey        As Long
-Private m_hHash              As Long
+Private m_HashAlgoID         As Long
+Private m_hCryptoProv        As LongPtr
+Private m_hSessionKey        As LongPtr
+Private m_hHash              As LongPtr
 Private m_sSALT              As String
 Private m_sHash              As String
 Private hKeyPair             As Long
@@ -103,10 +115,10 @@ Private strSig               As String
 Private Sub Class_Initialize()
     Dim hr As Long
     ' Handle erstellen
-    hr = CryptAcquireContextA(m_hCryptoProv, KEY_CONTAINER, SERVICE_PROVIDER, PROV_RSA_FULL, CRYPT_NEWKEYSET)
+    hr = CryptAcquireContextW(m_hCryptoProv, StrPtr(KEY_CONTAINER), StrPtr(SERVICE_PROVIDER), PROV_RSA_FULL, CRYPT_NEWKEYSET)
     If hr = 0 Then
         ' Versuchen ein bereits erstelltes Handle zu nutzen, wenn nicht dann...
-        hr = CryptAcquireContextA(m_hCryptoProv, KEY_CONTAINER, SERVICE_PROVIDER, PROV_RSA_FULL, 0)
+        hr = CryptAcquireContextW(m_hCryptoProv, StrPtr(KEY_CONTAINER), StrPtr(SERVICE_PROVIDER), PROV_RSA_FULL, 0)
         If hr = 0 Then
             Err.Raise Err.LastDllError, , "DLL gab Fehler zurück.  Fehler." & vbCrLf & "Fehler Beim erstellen des Handles"
         End If
@@ -118,56 +130,52 @@ Private Sub Class_Terminate()
     If m_hCryptoProv Then CryptReleaseContext m_hCryptoProv, 0
 End Sub
 
-Friend Sub New_(aHashAlgo As EHashAlgo)
+Friend Sub New_(ByVal aHashAlgo As EHashAlgo)
     m_HashAlgo = aHashAlgo
+    Select Case m_HashAlgo
+    Case EHashAlgo.ha_RC4: m_HashAlgoID = CALG_RC4
+    Case EHashAlgo.ha_MD5: m_HashAlgoID = CALG_MD5
+    Case EHashAlgo.ha_SHA: m_HashAlgoID = CALG_SHA
+    End Select
 End Sub
 
 Public Property Get HashAlgo() As EHashAlgo
     HashAlgo = m_HashAlgo
 End Property
 
-Public Function TryGetHash(ByVal Key As String) As String
-    
-    'Dim lngParams As Long
-    Dim hr As Long
-    'Dim sHash As String
-    'Dim lngHashLen As Long
-    'Dim hHash As Long
-    
-    
+Public Function TryGetHash(Key() As Byte) As Byte()
+        
     'Hash erstellen
-    'hr = CryptCreateHash(m_hCryptoProv, CALG_SHA, 0, 0, hHash)
-    Dim c As Long
-    Select Case m_HashAlgo
-    Case EHashAlgo.ha_RC4: c = CALG_RC4
-    Case EHashAlgo.ha_MD5: c = CALG_MD5
-    Case EHashAlgo.ha_SHA: c = CALG_SHA
-    End Select
-    
-    hr = CryptCreateHash(m_hCryptoProv, c, 0, 0, m_hHash)
+    Dim hr As Long
+    hr = CryptCreateHash(m_hCryptoProv, m_HashAlgoID, 0, 0, VarPtr(m_hHash))
     If hr = 0 Then Err.Raise Err.LastDllError, , "DLL gab Error aus. Hash-Objekt kann nicht erstellt werden! " & "(CryptCreateHash API)"
     
     'Key in den Hash schreiben
-    hr = CryptHashData(m_hHash, Key, Len(Key), 0)
+    hr = CryptHashData(m_hHash, VarPtr(Key(0)), UBound(Key) + 1, 0)
     If hr = 0 Then Err.Raise Err.LastDllError, , "DLL-Fehler: Daten konnten nicht in den Hash geschrieben werden " & "(CryptHashData API)"
     
     'Länge des Hash ermitteln
     Dim hashlen As Long
-    hr = CryptGetHashParam(m_hHash, HP_HASHVAL, vbNull, hashlen, 0)
-    'String auf ermittelte Länge setzen
-    'm_sHash = String(hashlen + 1, vbNullChar)
-    m_sHash = String(hashlen, vbNullChar)
-    'Key auslesen
-    hr = CryptGetHashParam(m_hHash, HP_HASHVAL, m_sHash, hashlen, 0)
+    hr = CryptGetHashParam(m_hHash, HP_HASHVAL, vbNull, VarPtr(hashlen), 0)
+    
+    'Bytearray auf ermittelte Länge setzen
+    ReDim bhash(0 To hashlen - 1) As Byte
+    'den Hash empfangen
+    hr = CryptGetHashParam(m_hHash, HP_HASHVAL, VarPtr(bhash(0)), VarPtr(hashlen), 0)
     
     If hr = 0 Then Err.Raise Err.LastDllError, , "DLL gab Fehler aus. Hash-Value ungültig!"
     
-    TryGetHash = m_sHash
+    TryGetHash = bhash
     
-    If m_hSessionKey <> 0 Then CryptDestroyKey m_hSessionKey
+    If m_hSessionKey <> 0 Then
+        CryptDestroyKey m_hSessionKey
+        m_hSessionKey = 0
+    End If
     
-    If m_hHash <> 0 Then CryptDestroyHash m_hHash
+    If m_hHash <> 0 Then
+        CryptDestroyHash m_hHash
+        m_hHash = 0
+    End If
     
 End Function
-
 

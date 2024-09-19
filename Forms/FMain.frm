@@ -417,7 +417,7 @@ Begin VB.Form FMain
    End
    Begin VB.Label LBLDragDropFileCRC32 
       Alignment       =   2  'Zentriert
-      Caption         =   "Drag'n'drop file here, checksum will be calculated!"
+      Caption         =   "Drag'n'drop file here, checksum-hash will be calculated!"
       BeginProperty Font 
          Name            =   "Segoe UI"
          Size            =   9
@@ -539,9 +539,11 @@ End Sub
 
 Private Sub BtnMSCryptRC4_Click()
     Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
-    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_RC4)
-    s = c.TryGetHash(s)
     Dim b() As Byte: b = StrConv(s, vbFromUnicode)
+    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_RC4)
+    's = c.TryGetHash(s)
+    b = c.TryGetHash(b)
+    'Dim b() As Byte: b = StrConv(s, vbFromUnicode)
     s = "&H"
     Dim i As Long
     For i = LBound(b) To UBound(b)
@@ -554,9 +556,11 @@ End Sub
 '58826469c2606f4791b9f75880dfbe2a
 Private Sub BtnMSCryptMD5_Click()
     Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
-    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_MD5)
-    s = c.TryGetHash(s)
     Dim b() As Byte: b = StrConv(s, vbFromUnicode)
+    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_MD5)
+    's = c.TryGetHash(s)
+    b = c.TryGetHash(b)
+    'Dim b() As Byte: b = StrConv(s, vbFromUnicode)
     s = "&H"
     Dim i As Long
     For i = LBound(b) To UBound(b)
@@ -571,9 +575,11 @@ End Sub
 '645218467886dd414ea66a09b6cceea806127fb5
 Private Sub BtnMSCryptSHA_Click()
     Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
-    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_SHA)
-    s = c.TryGetHash(s)
     Dim b() As Byte: b = StrConv(s, vbFromUnicode)
+    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_SHA)
+    's = c.TryGetHash(s)
+    b = c.TryGetHash(b)
+    'Dim b() As Byte: b = StrConv(s, vbFromUnicode)
     s = "&H"
     Dim i As Long
     For i = LBound(b) To UBound(b)
