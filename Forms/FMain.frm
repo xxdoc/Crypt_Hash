@@ -282,11 +282,10 @@ Begin VB.Form FMain
       Top             =   1680
       Width           =   1935
    End
-   Begin VB.TextBox TxtUserTextToCrypt 
+   Begin VB.TextBox TxtUserText 
       Height          =   975
       Left            =   120
       TabIndex        =   1
-      Text            =   "The Quick Brown Fox Jumps Over The Lazy Dog"
       Top             =   600
       Width           =   10215
    End
@@ -478,8 +477,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-    TxtUserTextToCrypt.Text = "The Quick Brown Fox Jumps Over The Lazy Dog"
-    'Label1.Caption = "&&H07606BB6"
+    TxtUserText.Text = "The Quick Brown Fox Jumps Over The Lazy Dog"
     Me.Caption = Me.Caption & " v" & App.Major & "." & App.Minor & "." & App.Revision
 End Sub
 
@@ -494,104 +492,81 @@ Private Sub OnOLEDragDrop(Data As DataObject, Effect As Long, Button As Integer,
     If Not Data.GetFormat(ClipBoardConstants.vbCFFiles) Then Exit Sub
     Dim PFN As String: PFN = Data.Files(1)
     Dim s As String: s = GetFileContent(PFN)
-    Dim crc32_chksum As Long
-    MCRC32.InitLUTable ECRC32LUTable.CRC32_JAMCRC
-    If MCRC32.String_TryCheckCRC32(s, crc32_chksum) Then
-        TxtCRC32JAM.Text = "&H" & Hex(crc32_chksum)
-    End If
+    'Dim crc32_chksum As Long
+    'MCRC32.InitLUTable ECRC32LUTable.CRC32_JAMCRC
+    'If MCRC32.String_TryCheckCRC32(s, crc32_chksum) Then
+    '    TxtCRC32JAM.Text = "&H" & Hex(crc32_chksum)
+    'End If
 End Sub
 
-Function GetFileContent(PFN As String) As String
+Function GetFileContent(PFN As String) As Byte()
 Try: On Error GoTo Catch
     Dim FNr As Integer: FNr = FreeFile
     Open PFN For Binary Access Read As FNr
-    Dim sContent As String: sContent = Space(LOF(FNr))
-    Get FNr, , sContent
-    GetFileContent = sContent
+    ReDim FileContent(0 To LOF(FNr) - 1) As Byte ': sContent = Space(LOF(FNr))
+    Get FNr, , FileContent
+    GetFileContent = FileContent
     GoTo Finally
 Catch:
-Finally:
-    Close FNr
+    MsgBox "Error in FMain.GetFileContent"
+Finally: Close FNr
 End Function
 
-'The Interface should be:
-'Public Function CheckSum(Bytes() as Byte) As Byte()
-
+'"The Quick Brown Fox Jumps Over The Lazy Dog" = &HF89F9449
 Private Sub BtnCRC32JAM_Click()
-    Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
-    Dim crc32_check As Long
-    MCRC32.InitLUTable ECRC32LUTable.CRC32_JAMCRC
-    If MCRC32.String_TryCheckCRC32(s, crc32_check) Then
-        TxtCRC32JAM.Text = "&H" & Hex(crc32_check)
-        'Debug.Print MCRC32.CRC32LUTableTypToStr & ": &&H" & Hex(crc32_check)
-    End If
+    TxtCRC32JAM.Text = GetHash(MNew.CRC32(ECRC32Algo.CRC32_JAMCRC))
 End Sub
 
+'"The Quick Brown Fox Jumps Over The Lazy Dog" = &HA26BF73F
 Private Sub BtnCRC32MEF_Click()
-    Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
-    Dim crc32_check As Long
-    MCRC32.InitLUTable ECRC32LUTable.CRC32_MEF
-    If MCRC32.String_TryCheckCRC32(s, crc32_check) Then
-        TxtCRC32MEF.Text = "&H" & Hex(crc32_check)
-        'Debug.Print MCRC32.CRC32LUTableTypToStr & ": &&H" & Hex(crc32_check)
-    End If
+    TxtCRC32MEF.Text = GetHash(MNew.CRC32(ECRC32Algo.CRC32_MEF))
 End Sub
 
+'"The Quick Brown Fox Jumps Over The Lazy Dog" = &H3E9B65EFC2EADA94C501D9DF83719322
 Private Sub BtnMSCryptRC4_Click()
-    Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
-    Dim b() As Byte: b = StrConv(s, vbFromUnicode)
-    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_RC4)
-    's = c.TryGetHash(s)
-    b = c.TryGetHash(b)
-    'Dim b() As Byte: b = StrConv(s, vbFromUnicode)
-    s = "&H"
-    Dim i As Long
-    For i = LBound(b) To UBound(b)
-        s = s & Hex2(b(i))
-    Next
-    TxtMSCryptRC4.Text = s
+    TxtMSCryptRC4.Text = GetHash(MNew.MSCrypt(EHashAlgo.ha_RC4))
 End Sub
 
-'The Quick Brown Fox Jumps Over The Lazy Dog
-'58826469c2606f4791b9f75880dfbe2a
+'"The Quick Brown Fox Jumps Over The Lazy Dog" = &H58826469C2606F4791B9F75880DFBE2A
 Private Sub BtnMSCryptMD5_Click()
-    Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
-    Dim b() As Byte: b = StrConv(s, vbFromUnicode)
-    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_MD5)
-    's = c.TryGetHash(s)
-    b = c.TryGetHash(b)
-    'Dim b() As Byte: b = StrConv(s, vbFromUnicode)
-    s = "&H"
-    Dim i As Long
-    For i = LBound(b) To UBound(b)
-        s = s & Hex2(b(i))
-    Next
-    TxtMSCryptMD5.Text = s
+    TxtMSCryptMD5.Text = GetHash(MNew.MSCrypt(EHashAlgo.ha_MD5))
 End Sub
 
 'SHA = Secure Hash Algorithm
-
-'The Quick Brown Fox Jumps Over The Lazy Dog
-'645218467886dd414ea66a09b6cceea806127fb5
+'"The Quick Brown Fox Jumps Over The Lazy Dog" = &H645218467886DD414EA66A09B6CCEEA806127FB5
 Private Sub BtnMSCryptSHA_Click()
-    Dim s As String: s = TxtUserTextToCrypt.Text '"The Quick Brown Fox Jumps Over The Lazy Dog"
-    Dim b() As Byte: b = StrConv(s, vbFromUnicode)
-    Dim c As MSCrypt: Set c = MNew.MSCrypt(EHashAlgo.ha_SHA)
-    's = c.TryGetHash(s)
-    b = c.TryGetHash(b)
-    'Dim b() As Byte: b = StrConv(s, vbFromUnicode)
-    s = "&H"
-    Dim i As Long
-    For i = LBound(b) To UBound(b)
-        s = s & Hex2(b(i))
-    Next
-    TxtMSCryptSHA.Text = s
+    TxtMSCryptSHA.Text = GetHash(MNew.MSCrypt(EHashAlgo.ha_SHA))
 End Sub
+
+Private Function GetHash(hasher As IHasher) As String
+Try: On Error GoTo Catch
+    Dim s As String: s = TxtUserText.Text
+    If Len(s) = 0 Then
+        MsgBox "Please give a valid string in edittextbox"
+        Exit Function
+    End If
+    Dim b() As Byte: b = StrConv(s, vbFromUnicode)
+    Dim hash() As Byte: hash = hasher.GetHash(b)
+    GetHash = Hex_ToStr(hash)
+    'GetHash = Hex_ToStr(hasher.GetHash(StrConv(TxtUserText.Text, vbFromUnicode)))
+    Exit Function
+Catch:
+    MsgBox "Error in FMain.GetHash maybe text is empty"
+End Function
+
+'Private Function GetMSCryptHash(hasher As MSCrypt) As String
+'    Dim s As String: s = TxtUserTextToCrypt.Text
+'    Dim b() As Byte: b = StrConv(s, vbFromUnicode)
+'    Dim hash() As Byte: hash = hasher.GetHash(b)
+'    GetMSCryptHash = Hex_ToStr(hash)
+'End Function
+
+
 
 'The Quick Brown Fox Jumps Over The Lazy Dog
 'c6e68384699d2e81c02d4c3eec53cede3ea420c1ae8a227dac495aa00666fd13
 Private Sub BtnBCryptSHA256_Click()
-    Dim b() As Byte: b = TxtUserTextToCrypt.Text
+    Dim b() As Byte: b = TxtUserText.Text
     b = MBCrypt.TryGetHash(b)
     TxtBCryptSHA256.Text = b
 End Sub
@@ -606,8 +581,4 @@ End Sub
 '12a98085e307959d5d6e6d0ed361845b604a33f9b66d025f30cc0414d2fa374ea129e6e80a838dffc07e2334e9936119d5bb18443d3ecde58a2f1ec4306e6fb2
 Private Sub BtnBCryptSHA512_Click()
     '
-End Sub
-
-Private Sub Text1_Change()
-
 End Sub
