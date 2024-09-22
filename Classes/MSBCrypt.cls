@@ -12,4 +12,8 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
+Implements IHasher
 
+Private Function IHasher_GetHash(Value() As Byte) As Byte()
+    '
+End Function

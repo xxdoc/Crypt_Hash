@@ -94,7 +94,7 @@ Private Const PRIVATEKEYBLOB         As Long = 7
 Private Const CRYPT_NO_SALT          As Long = 16
 Private Const NTE_BAD_SIGNATURE      As Long = &H80090006 '-2146893818
 
-Public Enum EHashAlgo
+Public Enum ECryptHashAlgo
     ha_RC4 = 1
     ha_MD5 = 3
     ha_SHA = 4
@@ -134,7 +134,7 @@ Private Sub Class_Terminate()
     If m_hCryptoProv Then CryptReleaseContext m_hCryptoProv, 0
 End Sub
 
-Friend Sub New_(ByVal aHashAlgo As EHashAlgo)
+Friend Sub New_(ByVal aHashAlgo As ECryptHashAlgo)
     m_HashAlgo = aHashAlgo
     Select Case m_HashAlgo
     Case EHashAlgo.ha_RC4: m_HashAlgoID = CALG_RC4
@@ -143,7 +143,7 @@ Friend Sub New_(ByVal aHashAlgo As EHashAlgo)
     End Select
 End Sub
 
-Public Property Get HashAlgo() As EHashAlgo
+Public Property Get HashAlgo() As ECryptHashAlgo
     HashAlgo = m_HashAlgo
 End Property
 

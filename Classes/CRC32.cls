@@ -34,7 +34,7 @@ Option Explicit
 
 Implements IHasher
 
-Public Enum ECRC32Algo 'LUTable
+Public Enum ECRC32Algo
     'CRC32_AIXM
     'CRC32_AUTOSAR
     'CRC32_BASE91D
@@ -49,7 +49,13 @@ Public Enum ECRC32Algo 'LUTable
     'CRC32_XFER
 End Enum
 
-Private Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal lpPrevWndFunc As Long, ByVal hwnd As Long, ByVal msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+#If VBA7 Then
+    'https://learn.microsoft.com/de-de/windows/win32/api/winuser/nf-winuser-callwindowprocw
+    Private Declare Function CallWindowProcW Lib "user32" (ByVal lpPrevWndFunc As LongPtr, ByVal hwnd As LongPtr, ByVal msg As LongPtr, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As Long
+#Else
+    'https://learn.microsoft.com/de-de/windows/win32/api/winuser/nf-winuser-callwindowprocw
+    Private Declare Function CallWindowProcW Lib "user32" (ByVal lpPrevWndFunc As LongPtr, ByVal hwnd As LongPtr, ByVal msg As LongPtr, ByVal wParam As LongPtr, ByVal lParam As LongPtr) As Long
+#End If
 
 Private m_CRC32Asm() As Byte
 Private m_CRC32Algo  As ECRC32Algo
@@ -82,7 +88,7 @@ Try: On Local Error GoTo Catch
     Dim ub As Long: ub = UBound(Value)
     Dim ByteSize As Long: ByteSize = ub - lb + 1
     Dim hr As Long
-    hr = CallWindowProc(VarPtr(m_CRC32Asm(0)), VarPtr(m_Hash(0)), VarPtr(Value(lb)), VarPtr(m_LUTable(0)), ByteSize)
+    hr = CallWindowProcW(VarPtr(m_CRC32Asm(0)), VarPtr(m_Hash(0)), VarPtr(Value(lb)), VarPtr(m_LUTable(0)), ByteSize)
     GetHash = m_Hash
     Exit Function
 Catch:
