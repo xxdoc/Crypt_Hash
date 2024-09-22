@@ -69,10 +69,10 @@ Private Const CRYPT_DELETEKEYSET     As Long = 16
 
 Private Const KP_SALT                As Long = 2
 
-Private Const ALG_CLASS_DATA_ENCRYPT As Long = 24576
-Private Const ALG_CLASS_HASH         As Long = 32768
+Private Const ALG_CLASS_DATA_ENCRYPT As Long = &H6000& '24576
+Private Const ALG_CLASS_HASH         As Long = &H8000& '32768
 Private Const ALG_TYPE_ANY           As Long = 0
-Private Const ALG_TYPE_STREAM        As Long = 2048
+Private Const ALG_TYPE_STREAM        As Long = &H800& '2048
 Private Const ALG_SID_RC4            As Long = 1
 Private Const ALG_SID_MD5            As Long = 3
 Private Const ALG_SID_SHA            As Long = 4
@@ -111,7 +111,7 @@ End Enum
 'Private strSig               As String
 
 Private m_hCryptoProv As LongPtr
-Private m_HashAlgo    As EHashAlgo
+Private m_HashAlgo    As ECryptHashAlgo
 Private m_HashAlgoID  As Long
 Private m_hHash       As LongPtr
 Private m_bHash()     As Byte
@@ -137,9 +137,9 @@ End Sub
 Friend Sub New_(ByVal aHashAlgo As ECryptHashAlgo)
     m_HashAlgo = aHashAlgo
     Select Case m_HashAlgo
-    Case EHashAlgo.ha_RC4: m_HashAlgoID = CALG_RC4
-    Case EHashAlgo.ha_MD5: m_HashAlgoID = CALG_MD5
-    Case EHashAlgo.ha_SHA: m_HashAlgoID = CALG_SHA
+    Case ECryptHashAlgo.ha_RC4: m_HashAlgoID = CALG_RC4
+    Case ECryptHashAlgo.ha_MD5: m_HashAlgoID = CALG_MD5
+    Case ECryptHashAlgo.ha_SHA: m_HashAlgoID = CALG_SHA
     End Select
 End Sub
 

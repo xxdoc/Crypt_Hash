@@ -14,6 +14,23 @@ Attribute VB_Exposed = False
 Option Explicit
 Implements IHasher
 
+Public Enum EBCryptHashAlgo
+    ha_SHA256 = 1
+    ha_SHA384 = 2
+    ha_SHA512 = 3
+End Enum
+
+Private m_HashAlgo As EBCryptHashAlgo
+
+Friend Sub New_(ByVal aHashAlgo As EBCryptHashAlgo)
+    m_HashAlgo = aHashAlgo
+End Sub
+
+Public Function GetHash(Value() As Byte) As Byte()
+
+End Function
+
+' v ############################## v '    Implements IHasher    ' v ############################## v '
 Private Function IHasher_GetHash(Value() As Byte) As Byte()
-    '
+    IHasher_GetHash = Me.GetHash(Value)
 End Function
