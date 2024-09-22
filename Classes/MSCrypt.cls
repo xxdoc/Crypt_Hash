@@ -58,14 +58,25 @@ Implements IHasher
 
 Private Const SERVICE_PROVIDER As String = "Microsoft Base Cryptographic Provider v1.0" & vbNullChar
 
-Private Const ERROR_SUCCESS          As Long = 0
+'Private Const ERROR_SUCCESS          As Long = 0
 Private Const KEY_CONTAINER          As String = "MyHashKey" & vbNullChar
 Private Const PROV_RSA_FULL          As Long = 1
 
-Private Const CRYPT_EXPORTABLE       As Long = 1
-Private Const CRYPT_CREATE_SALT      As Long = 4
-Private Const CRYPT_NEWKEYSET        As Long = 8
-Private Const CRYPT_DELETEKEYSET     As Long = 16
+'CryptCreateHash-dwFlags:
+Private Const CRYPT_SECRETDIGEST     As Long = &H1&
+'CryptAcquireContext-dwFlags:
+Private Const CRYPT_NEWKEYSET        As Long = &H8&
+Private Const CRYPT_UPDATE_KEY       As Long = &H8&
+Private Const CRYPT_DELETEKEYSET     As Long = &H10&
+Private Const CRYPT_MACHINE_KEYSET   As Long = &H20&
+Private Const CRYPT_SILENT           As Long = &H40&
+Private Const CRYPT_VERIFYCONTEXT    As Long = &HF0000000
+Private Const CRYPT_DEFAULT_CONTAINER_OPTIONAL As Long = 0 '???
+Private Const CRYPT_SERVER           As Long = &H400
+
+Private Const CRYPT_EXPORTABLE       As Long = &H1
+Private Const CRYPT_CREATE_SALT      As Long = &H4
+Private Const CRYPT_NO_SALT          As Long = &H10
 
 Private Const KP_SALT                As Long = 2
 
@@ -87,12 +98,47 @@ Private Const CALG_SHA               As Long = (ALG_CLASS_HASH Or ALG_SID_SHA)
 Private Const AT_KEYEXCHANGE         As Long = 1
 Private Const AT_SIGNATURE           As Long = 2
 
-Private Const HP_HASHVAL             As Long = 2
+'CryptGetHashParam: dwParam:
+Private Const HP_ALGID               As Long = &H1&
+Private Const HP_HASHVAL             As Long = &H2&
+Private Const HP_HASHSIZE            As Long = &H4&
+
 Private Const SIMPLEBLOB             As Long = 1
 Private Const PUBLICKEYBLOB          As Long = 6
 Private Const PRIVATEKEYBLOB         As Long = 7
-Private Const CRYPT_NO_SALT          As Long = 16
-Private Const NTE_BAD_SIGNATURE      As Long = &H80090006 '-2146893818
+
+'returnvalues: GetLastError
+Private Const ERROR_FILE_NOT_FOUND    As Long = &H2&
+Private Const ERROR_INVALID_HANDLE    As Long = &H6&
+Private Const ERROR_NOT_ENOUGH_MEMORY As Long = &H8&
+Private Const ERROR_INVALID_PARAMETER As Long = &H57& ' =87
+'Private Const ERROR_BUSY              As Long = &H68& '=104
+Private Const ERROR_BUSY              As Long = &HAA& '=170&
+
+Private Const NTE_BAD_UID             As Long = &H80090001
+Private Const NTE_BAD_HASH            As Long = &H80090002
+Private Const NTE_BAD_KEY             As Long = &H80090003
+Private Const NTE_BAD_LEN             As Long = &H80090004
+Private Const NTE_BAD_SIGNATURE       As Long = &H80090006 '-2146893818
+Private Const NTE_BAD_ALGID           As Long = &H80090008
+Private Const NTE_BAD_FLAGS           As Long = &H80090009
+Private Const NTE_BAD_KEY_STATE       As Long = &H8009000B
+Private Const NTE_BAD_HASH_STATE      As Long = &H8009000C
+Private Const NTE_NO_MEMORY           As Long = &H8009000E
+Private Const NTE_EXISTS              As Long = &H8009000F
+Private Const NTE_BAD_PROV_TYPE       As Long = &H80090014
+Private Const NTE_BAD_KEYSET          As Long = &H80090016
+Private Const NTE_PROV_TYPE_NOT_DEF   As Long = &H80090017
+Private Const NTE_PROV_TYPE_ENTRY_BAD As Long = &H80090018
+Private Const NTE_KEYSET_NOT_DEF      As Long = &H80090019
+Private Const NTE_KEYSET_ENTRY_BAD    As Long = &H8009001A
+Private Const NTE_PROV_TYPE_NO_MATCH  As Long = &H8009001B
+Private Const NTE_SIGNATURE_FILE_BAD  As Long = &H8009001C
+Private Const NTE_PROVIDER_DLL_FAIL   As Long = &H8009001D
+Private Const NTE_PROV_DLL_NOT_FOUND  As Long = &H8009001E
+Private Const NTE_BAD_KEYSET_PARAM    As Long = &H8009001F
+Private Const NTE_FAIL                As Long = &H80090020
+
 
 Public Enum ECryptHashAlgo
     ha_RC4 = 1

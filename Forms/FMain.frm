@@ -478,16 +478,30 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-'"The Quick Brown Fox Jumps Over The Lazy Dog"
-'CRC32JAM     = &HF89F9449
-'CRC32MEF     = &HA26BF73F
-'MSCryptRC4   = &H3E9B65EFC2EADA94C501D9DF83719322
-'MSCryptMD5   = &H58826469C2606F4791B9F75880DFBE2A
+'CRC = Cyclic Redundancy Check
+'https://de.wikipedia.org/wiki/Zyklische_Redundanzpr%C3%BCfung
+'https://en.wikipedia.org/wiki/Cyclic_redundancy_check
+
+'MD5 = Message Digest Algorithm 5
+'https://en.wikipedia.org/wiki/MD5
+'https://de.wikipedia.org/wiki/Message-Digest_Algorithm_5
+
+'RC4 = Rivest Cipher 4
+'https://en.wikipedia.org/wiki/RC4
+'https://de.wikipedia.org/wiki/RC4
+
 'SHA = Secure Hash Algorithm
-'MSCryptSHA   = &H645218467886DD414EA66A09B6CCEEA806127FB5
-'BCryptSHA256 = &Hc6e68384699d2e81c02d4c3eec53cede3ea420c1ae8a227dac495aa00666fd13
-'BCryptSHA384 = &H29713f65a24e97e66da57499723359374326dd1498c9a26fda84396a7a7d0a24c56a50343f5e0228778ea7bd53f9a179
-'BCryptSHA512 = &H12a98085e307959d5d6e6d0ed361845b604a33f9b66d025f30cc0414d2fa374ea129e6e80a838dffc07e2334e9936119d5bb18443d3ecde58a2f1ec4306e6fb2
+
+'"The Quick Brown Fox Jumps Over The Lazy Dog"
+'CRC32/JAMCRC  = &HF89F9449
+'CRC32/MEF     = &HA26BF73F
+'MSCrypt.RC4   = &H3E9B65EFC2EADA94C501D9DF83719322
+'MSCrypt.MD5   = &H58826469C2606F4791B9F75880DFBE2A
+'MSCrypt.SHA   = &H645218467886DD414EA66A09B6CCEEA806127FB5
+'BCrypt.SHA256 = &HC6E68384699D2E81C02D4C3EEC53CEDE3EA420C1AE8A227DAC495AA00666FD13
+'BCrypt.SHA384 = &H29713F65A24E97E66DA57499723359374326DD1498C9A26FDA84396A7A7D0A24C56A50343F5E0228778EA7BD53F9A179
+'BCrypt.SHA512 = &H12a98085e307959d5d6e6d0ed361845b604a33f9b66d025f30cc0414d2fa374ea129e6e80a838dffc07e2334e9936119d5bb18443d3ecde58a2f1ec4306e6fb2
+
 
 Private Sub Form_Load()
     TxtUserText.Text = "The Quick Brown Fox Jumps Over The Lazy Dog"
