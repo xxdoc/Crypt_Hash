@@ -277,9 +277,12 @@ Public Function TryGetHash(Bytes() As Byte) As Byte()
         MsgBox "**** Error " & Hex(m_status) & " returned by BCryptCreateHash" & vbCrLf & MErr.WinApiError_ToStr(m_status)
         Call CleanUp: Exit Function
     End If
-                                        
-    'hash some data
     
+    'hash some data
+    m_status = BCryptHashData(m_hHash, ByVal m_pbHashObject, m_cbHashObject, 0)
+    If Not (m_status >= STATUS_SUCCESS) Then
+        
+    End If
     'if(!NT_SUCCESS(status = BCryptHashData(
     '                                    hHash,
     '                                    (PBYTE)rgbMsg,
@@ -291,7 +294,28 @@ Public Function TryGetHash(Bytes() As Byte) As Byte()
     '}
     
     Call CleanUp
-    
+
+'    //create a hash
+'    if(!NT_SUCCESS(status = BCryptCreateHash(
+'                                        hAlg,
+'                                        &hHash,
+'                                        pbHashObject,
+'                                        cbHashObject,
+'                                        NULL,
+'                                        0,
+'                                        0)))
+'    {
+'        wprintf(L"**** Error 0x%x returned by BCryptCreateHash\n", status);
+'        goto Cleanup;
+'    }
+'
+'
+'    //hash some data
+'    if(!NT_SUCCESS(status = BCryptHashData(
+'                                        hHash,
+'                                        (PBYTE)rgbMsg,
+'                                        sizeof(rgbMsg),
+'                                        0)))
 End Function
 
 Private Function TryGetAlgorithmProvider(ByRef HandleAlgo_out As LongPtr) As Boolean
